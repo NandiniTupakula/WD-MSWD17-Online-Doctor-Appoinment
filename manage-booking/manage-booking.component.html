@@ -1,0 +1,136 @@
+<!-- spinner  -->
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#20b04b" type="ball-clip-rotate"></ngx-spinner>
+
+<!-- Main section -->
+<div class="Section">
+  <section>
+    <!-- Header -->
+    <div class="row">
+      <div class=" col-md-2 col-lg-2 mt-4 ml-5">
+        <h4> Appointment   | </h4>
+      </div>
+      <div class="col-md-2 col-lg-2 mt-4" >
+        <h6 class="mr-4 mt-1" style="font-size: medium; font-weight: lighter; "> Home >  Appointment </h6>
+      </div>
+    </div>
+
+    <!-- Date Picker-->
+    <div class="row mt-5" fxLayout="row wrap">
+      
+      <div fxFlex ="25%" class="col-lg-5 ml-5" style="width: 80%;height: 80%;">
+        <mat-card class="mat-elevation-z4 my-2 mx-2 px-2"  style="border-left: 4px solid #822972 ;width: 80%;height: 80%;">
+          <mat-card-content>
+              <mat-calendar name="appointment_date" [selected]="selectedDate" [minDate]="startAt" (selectedChange)="onSelect($event)"></mat-calendar>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <!-- End -->
+
+      <div class="col-lg-7">
+      <!-- Morning Slot related code -->
+        <mat-card class="mat-elevation-z4 mt-2 ">
+          <button style="min-width:100px; float:right;"  [disabled]="!AddButtonToggle"  mat-stroked-button class="border-outline-primary slots rounded-0" data-toggle="modal"
+          data-target="#selectSlot"> +Add Slots </button>
+            <mat-card-header>
+              <mat-card-title>
+                <div class ="row">
+                  <!-- <div class ="col-lg-1 mt-3"><img mat-card-image src="src\assets\img\provider\icon-brand.png" style="width: 12px;height: 12px;"/></div> -->
+                  <div class ="col-lg-12"><h6 style="font-size: medium;font-weight: bold;">Morning</h6><h6 style="font-size:10px;font-weight: lighter;color: darkkhaki;">9:00 AM to 12:00 AM</h6></div>
+                </div>
+                </mat-card-title>
+            </mat-card-header>
+          <mat-card-content class="mx-2 p-4">
+            <div class="row">
+                <div *ngIf="AvailableSlot; else noSlots">
+                  <span *ngFor="let slot of AvailableSlot.morningSlot">
+                    <button style="min-width:100px;" mat-stroked-button class="border-outline-primary slots rounded-0 ml-2" [disabled]="!isValid" (click)="selectedSlot(slot ,0)">{{slot | date: 'hh:mm a'}} </button>
+                  </span>
+                </div>
+                <ng-template #noSlots>
+                  <div class="p-1 text-center custom-gray">
+                    <i class="material-icons" style="font-size: 56px;">sentiment_very_dissatisfied</i>
+                    <p>All Slots Are Booked</p>
+                  </div>
+                </ng-template>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      <!-- End -->
+      <!-- Evening slot related code -->
+        <mat-card class="mat-elevation-z4 ">
+          <button style="min-width:100px; float:right;"  [disabled]="!AddButtonToggleEvening" mat-stroked-button class="border-outline-primary slots rounded-0"  data-toggle="modal"
+          data-target="#selectSlot" >+Add Slots </button>
+          <mat-card-header>
+            <mat-card-title>
+              <div class ="row">
+                <!-- <div class ="col-lg-1 mt-3"><img mat-card-image src="src\assets\img\provider\icon-brand.png" style="width: 12px;height: 12px;"/></div> -->
+                <div class ="col-lg-12"><h6 style="font-size: medium;font-weight: bold;">Evening</h6><h6 style="font-size:10px;font-weight: lighter;color: darkkhaki;">5:00 PM to 12:00 PM</h6></div>
+              </div>
+              </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="mx-2 p-4">
+            <div class="row">
+              <div *ngIf="AvailableSlot; else noSlots">
+                <span *ngFor="let slot of AvailableSlot.eveningSlot">
+                  <button style="min-width:100px;" mat-stroked-button class="border-outline-primary slots rounded-3 ml-2" [disabled]="!isValidEvening" (click)="selectedSlotEvening(slot ,0)">{{slot | date: 'hh:mm a'}} </button>
+                </span>
+              </div>
+              <ng-template #noSlots>
+                <div class="p-1 text-center custom-gray">
+                  <i class="material-icons" style="font-size: 56px;">sentiment_very_dissatisfied</i>
+                  <p>All Slots Are Booked</p>
+                </div>
+              </ng-template>
+          </div>
+          </mat-card-content>
+        </mat-card>
+        <!-- End -->
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Modal - Popup for Booking the Slot -->
+<div class="modal modal-scroll mat-elevation-z4 mt-5 sample" id="selectSlot" role="dialog"
+  aria-labelledby="basicvalCode">
+  <div class=" modal-dialog wide">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="basicvalCode">Book Slot</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="selectedSlot(slot ,2)" >×</button>
+      </div>
+      <div class="modal-body">
+        <h5 style="color: lightgreen; text-align: center;" class="mb-4">PLease select time slot : {{ selectedFromButton}} -  {{selectedToButton}} </h5>
+          <div class="row">
+            <div class="col-md-6 col-lg-6">
+              <span>
+                <label style="display:block; font-weight: 500; font-size:500"> From Time : </label>
+                <mat-form-field appearance="outline" style="min-width:50%;">
+                  <mat-label>From</mat-label>
+                  <input class ="sample" matInput type="text" atp-time-picker    [(ngModel)]="vm.from" required readonly
+                    placeholder="HH:MM AM">
+                </mat-form-field>
+              </span>
+            </div>
+            <div class="col-md-6 col-lg-6">
+              <span>
+                <label style="display:block; font-weight: 500; font-size:500"> To Time : </label>
+                <mat-form-field appearance="outline">
+                  <mat-label>To </mat-label>
+                  <input matInput type="text" atp-time-picker  [(ngModel)]="vm.to" required readonly
+                    placeholder="HH:MM AM">
+                </mat-form-field>
+              </span>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-12 text-center">
+              <input type="button" (click)="booking()" [disabled]="!vm.from  || !vm.to" value="Submit" class="btn btn-primary">
+            </div>
+          </div>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

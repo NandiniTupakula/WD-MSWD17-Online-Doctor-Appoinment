@@ -1,0 +1,26 @@
+<mat-toolbar class="customNavbar staticNav ">
+  <mat-toolbar-row>
+    <span class="title"><img id="navLogo" style="cursor:pointer;" alt="ABC" src="assets/img/admin-panel.png" width="70"
+        [routerLink]="[ '/vendor/manageUser' ]" /></span>
+    <span class="navIcon" >
+      <img src="assets/img/user-small.png" />
+      <span>&nbsp;&nbsp; Dr .Deepak Tiwari</span>
+    </span>
+    <div class="vl"></div>
+    <span class="mx-3">
+      <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+      <mat-form-field >
+        <mat-datepicker #pickerFrom disabled="false"></mat-datepicker>
+        <input class="input" matInput [matDatepicker]="pickerFrom" name="from" [(ngModel)]="dm.date"
+          placeholder="Choose from date" (click)="pickerFrom.open()" readonly required>
+      </mat-form-field>
+    </span>
+    <div class="vl"></div>
+    <span class="nvSpacer"></span>
+    <span class="navIcon"  [routerLink]="[ '/booking' ]"><button mat-button class="my-class">Appointments</button></span>
+    <span class="navIcon"  [routerLink]="[ '/' ]"><button mat-button class="my-class">Walk-In</button></span>
+    <button  mat-icon-button (click)="openRightNav()">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
